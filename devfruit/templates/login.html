@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="../static/css/logi.css" />
+    <link rel="shortcut icon" href="../static/img/apple.png" />
+    <script
+      src="https://kit.fontawesome.com/b783c53a52.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <nav>
+      <div class="logo header-fixed">
+        <a href="{{ url_for('index') }}"><h1>DevFruit<i class="fa-solid fa-watermelon-slice"></i></h1></a>
+      </div>
+
+      <ul>
+        <li>
+          <a href="sobre.html">Sobre</a>&nbsp;<i class="fa-solid fa-carrot"></i>
+        </li>
+        <li>
+          <a href="index.html">Carrinho</a>&nbsp;<i
+            class="fa-solid fa-basket-shopping"
+          ></i>
+        </li>
+        <li>
+          <a href="login.html">Login</a>&nbsp;<i
+            class="fa-solid fa-address-card"
+          ></i>
+        </li>
+        <li>
+          <a href="atendimento.html">Atendimento</a>&nbsp;<i
+            class="fa-solid fa-circle-info"
+          ></i>
+        </li>
+        <li>
+          <a href="sair.html">Sair</a>&nbsp;<i
+            class="fa-solid fa-circle-xmark"
+          ></i>
+        </li>
+      </ul>
+    </nav>
+    <div class="container">
+      <div class="form-image">
+        <img src="../static/img/login.svg" alt="" />
+      </div>
+      <div class="form">
+        <form action="{{ url_for('logar') }}" method="POST">
+          <div class="form-header">
+            <div class="title">
+              <h1>Login</h1>
+            </div>
+          </div>
+          <div class="login-button">
+            <button><a href="{{ url_for('cadastro') }}">Faça seu cadastro</a></button>
+          </div>
+
+          <div class="input-group">
+          
+
+            <div class="input-box">
+              <label for="email">E-mail</label>
+              <input
+                id="email"
+                type="email"
+                name="email"
+                placeholder="Digite seu e-mail"
+                required
+              />
+            </div>
+
+            <div class="input-box">
+              <label for="password">Senha</label>
+              <input
+                id="password"
+                type="password"
+                name="password"
+                placeholder="Digite sua senha"
+                required
+              />
+            </div>
+
+          </div>
+
+          <div class="continue-button">
+            <input type="submit" value="Login">
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
