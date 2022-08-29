@@ -1,6 +1,8 @@
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import re
+import json
+import sys
 from flask import Flask, render_template, url_for, request, session, redirect
 from config import app, mysql, cursor, conn
 from wtforms import StringField, PasswordField, SubmitField
@@ -8,23 +10,34 @@ from wtforms.validators import InputRequired, Length, ValidationError
 from flask_wtf import FlaskForm
 
 
+def queryprodutos():
+    query = '''SELECT * FROM tb_produto ORDER BY nome'''
+    cursor.execute(query)
+    res = cursor.fetchall()
+    produtos = []
+    content = {}
+    for result in res:
+        content = {'ID': result[0], 'id_tipo': result[1],'nome': result[2], 'descricao': result[3],'qtd_estoque': result[4], 'qtd_minima': result[5],'valor_compra': result[6], 'valor_venda': result[7], 'ativo': result[8]}
+        produtos.append(content)
+        content={}
+    return produtos
+
 @app.route('/')
 @app.route('/index')
 def index():
+    produtos = queryprodutos()
     # Check if user is loggedin
     if 'loggedin' in session:
         # User is loggedin show them the home page
-        print("ta com loginnnnnnnnnnnnnnnn ", session['id'])
-        return render_template('index.html', username=session['email'])
+        return render_template('index.html', username=session['email'], produtos=produtos)
     # User is not loggedin redirect to login page
-    return render_template('index.html')
+    return render_template('index.html',produtos=produtos)
 
 
 @app.route('/login')
 def login():
     if 'loggedin' in session:
-        # User is loggedin show them the home page
-        print("Usuario já logado ", session['id'])
+        # User is loggedin show them the home page       
         return render_template('index.html')
     # User is not loggedin redirect to login page
     return render_template('login.html')
@@ -54,15 +67,17 @@ def logar():
         else:
             # Account doesnt exist or username/password incorrect
             msg = 'Incorrect username/password!'
-            print(msg)
             
-    print (msg)
-    print(account)
+            
+    
     return render_template('index.html', msg=msg)
 
 
 @app.route('/cadastro')
 def cadastro():
+    if 'loggedin' in session:
+        # User is loggedin show them the home page
+        return render_template('cadastro.html', username=session['email'])
     return render_template('cadastro.html')
     
 
@@ -112,7 +127,26 @@ def logout():
    session.pop('email', None)
    # Redirect to login page
    return redirect(url_for('index'))
-    
+
+
+@app.route('/sobre')
+def sobre():
+    if 'loggedin' in session:
+        # User is loggedin show them the home page
+        return render_template('sobre.html', username=session['email'])
+    return render_template('sobre.html')
+
+@app.route('/carrinho')
+def carrinho():
+    return redirect(url_for('index'))
+
+@app.route('/atendimento')
+def atendimento():
+    if 'loggedin' in session:
+        # User is loggedin show them the home page
+        return render_template('atendimento.html', username=session['email'])
+    return render_template("atendimento.html")
+
 
 if __name__ == '__main__':  
     app.run(debug=True)
@@ -123,3 +157,10 @@ def teste():
     a=cursor.execute(query)
     print(a)
     return render_template('cadastro.html')
+
+
+sys.stdout = open('declare.js','w')
+
+jsonobj = json.dumps(queryprodutos())
+print("var jsonstr = '{}'".format(jsonobj))
+

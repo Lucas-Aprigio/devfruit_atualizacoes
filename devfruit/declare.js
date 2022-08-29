@@ -1,0 +1,1 @@
+var jsonstr = '[{"ID": 2, "id_tipo": 1, "nome": "Beterraba", "descricao": "beterraba vermelha", "qtd_estoque": 5, "qtd_minima": 6, "valor_compra": 5.0, "valor_venda": 6.0, "ativo": "1"}, {"ID": 3, "id_tipo": 3, "nome": "Salada", "descricao": "Verduta", "qtd_estoque": 8, "qtd_minima": 6, "valor_compra": 6.0, "valor_venda": 5.0, "ativo": "1"}]'
